@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Tinder!</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<div class=".container-fluid">
+	
+
+
+	<nav class="navbar navbar-default navbar-fixed-top text-center" role="navigation">
+		<h3>Tinder</h3>
+	</nav>
+	<div id="scenes">
+	</div>
+	
+	<nav class="navbar navbar-default navbar-fixed-bottom text-center" role="navigation">
+		<div id="submitbutton">
+			<input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" title="Submit">
+		</div>
+	</nav>
+	
+
+<!-- container close div -->
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="http://gregpike.net/demos/bootstrap-file-input/bootstrap.file-input.js.pagespeed.jm.IdmWcpRIii.js"></script>
+    <script src="Database.js"></script>
+    <script>$(document).ready(function(){$('input[type=file]').bootstrapFileInput();});</script>
+	<script>
+        var queryString = window.location.search;
+        var filterVal = new Array();
+        if(queryString != "") {
+            for(var i = 0; i < queryString.length; i++) {
+                if(queryString.charAt(i) == '=') {
+                    if(queryString.charAt(i+1) == 1) {
+                        filterVal.push(1);
+                    }
+                    else{
+                        filterVal.push(0);
+                    }
+                    if(queryString.charAt(i+1) == 2) {
+                        filterVal.push(1);
+                    }
+                    else{
+                        filterVal.push(0);
+                    }
+                    if(queryString.charAt(i+1) == 3) {
+                        filterVal.push(1);
+                    }
+                    else{
+                        filterVal.push(0);
+                    }
+                }
+            }
+        }
+        else{
+            filterVal = null;
+        }
+
+
+        for(var i = 0; i < dataSet.length; i++) {
+                if(filterVal == null) {
+                    generateDoc(i);
+                }
+                else if(dataSet[i].walk == filterVal.pop() || dataSet[i].drive == filterVal.pop() || dataSet[i].bike == filterVal.pop()) {
+                    generateDoc(i);
+                }
+            } // end for
+
+		function generateDoc(i) {
+            d3.select("#scenes")
+                    .append("div")
+                    .attr("class", "row")
+                    .append("div")
+                    .attr("class", "col-xs-12 col-sm-6")
+                    .append("div")
+                    .attr("class", "thumbnail")
+                    .attr("id", "pic" + i)
+                    .append("img")
+                    .attr("src", dataSet[i].image)
+                    .attr("height", "100px")
+                    .attr("width", "100%");
+            d3.select("#pic" + i)
+                    .append("div")
+                    .attr("class", "caption")
+                    .attr("id", "sec" + i);
+
+            d3.select("#sec" + i)
+                    .append("h3")
+                    .text(dataSet[i].title);
+            d3.select("#sec" + i)
+                    .append("p")
+                    .text(dataSet[i].notes);
+            d3.select("#sec" + i)
+                    .append("form")
+                    .attr("method","GET")
+                    .attr("action", "photo.html")
+                    .attr("id","form" + i)
+                    .append("input")
+                    .attr("type","hidden")
+                    .attr("name","photoid")
+                    .attr("value", i);
+            d3.select("#form" + i)
+                    .append("a")
+                    .attr("href", "photo.html")
+                    .append("button")
+                    .attr("type","submit")
+                    .attr("class","btn btn-primary")
+                    .text("View more information");
+        }
+	</script>
+	
+<!-- splash page -->
+
+<script>
+
+$(function() {
+  setTimeout(hideSplash, 2000);
+});
+
+function hideSplash() {
+  $.mobile.changePage("#home", "fade");
+}
+
+</script>
+
+  </body>
+</html>

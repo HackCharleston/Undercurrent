@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Tinder!</title>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<link href='http://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap -->
+  
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+<div class=".container-fluid" style="
+    height: 100%;
+    width: 100%; padding-top: 57px; ">
+
+	<nav class="navbar navbar-default navbar-fixed-top text-center" role="navigation">
+		<h3>Tinder</h3>
+	</nav>
+	<div id="map">
+	</div>
+
+
+
+	
+	<nav class="navbar navbar-default navbar-fixed-bottom text-center" role="navigation">
+		<div id="submitbutton">
+			<input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" title="Submit">
+		</div>
+	</nav>
+	
+
+<!-- container close div -->
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="http://gregpike.net/demos/bootstrap-file-input/bootstrap.file-input.js.pagespeed.jm.IdmWcpRIii.js"></script>
+    <script>$(document).ready(function(){$('input[type=file]').bootstrapFileInput();});</script>
+	<script>
+
+	function Sight(image, locationLat, locationLong, difficulty, popularity, title, notes) {
+    this.image = image;
+    this.locationLat = locationLat;
+    this.locationLong = locationLong;
+    this.difficulty = difficulty;
+    this.popularity = popularity;
+    this.title = title;
+    this.notes = notes;
+}
+
+function Location(lat, long) {
+    this.lat = lat;
+    this.long = long;
+}
+
+var dataSet = [new Sight("http://upload.wikimedia.org/wikipedia/en/thumb/8/89/Angel_Oak_Tree_in_SC.jpg/1280px-Angel_Oak_Tree_in_SC.jpg",
+    32.81606, -79.884338, 3, 44, "Angel Oak", "so underwhelming!"), new Sight("http://www.charlestoncitypaper.com/imager/bull-island/b/original/1884233/9b29/IMG_0769.JPG",
+    32.792163, -79.869919, 1, 22, "Bulls Island", "Pretty dead trees huh?"), new Sight("http://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Hunting_Island_2.jpg/300px-Hunting_Island_2.jpg",
+    32.793658, -79.951029, 2, 3, "The Marsh", "Watch out for the skeeters!")];
+
+
+var map = new google.maps.Map(d3.select("#map").node(), {
+    zoom: 15,
+    center: new google.maps.LatLng(32.793317, -79.93309), //N/S E/W
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+
+
+
+var overlay = new google.maps.OverlayView();
+
+var projection;
+
+function _projection(lat, lng) {
+    e = new google.maps.LatLng(lat, lng);
+    e = projection.fromLatLngToDivPixel(e);
+    return [e.x, e.y]
+    // return [ e.x, e.y ]
+}
+overlay.onAdd = function () {
+    var layer = d3.select(this.getPanes().overlayLayer).append("div")
+        .attr("height", "100%")
+        .attr("width", "100%")
+        .attr("class", "markers")
+        .attr("id", "layer")
+
+    layer.node().style.width = "1366px";
+    layer.node().parentNode.style.width = "100%";
+    layer.node().parentNode.style.height = "100%";
+    layer.node().parentNode.parentNode.style.width = "100%";
+    layer.node().parentNode.parentNode.style.height = "100%";
+    layer.node().parentNode.parentNode.parentNode.style.width = "100%";
+    layer.node().parentNode.parentNode.parentNode.style.height = "100%";
+    layer.node().parentNode.parentNode.parentNode.parentNode.style.width = "100%";
+    layer.node().parentNode.parentNode.parentNode.parentNode.style.height = "100%";
+
+    var svg = layer.append('svg')
+        .attr('x', 0)
+        .attr('y', 0)
+
+	var defs = svg.append('svg:defs');
+            defs.append('svg:pattern')
+                .attr('id', 'tile-ww')
+                .attr('patternUnits', 'userSpaceOnUse')
+                .attr('width', '6')
+                .attr('height', '6')
+                .append('svg:image')
+                .attr('xlink:href', 'http://upload.wikimedia.org/wikipedia/en/thumb/8/89/Angel_Oak_Tree_in_SC.jpg/1280px-Angel_Oak_Tree_in_SC.jpg')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', 6)
+                .attr('height', 6);
+
+    var padding = 10;
+
+    var lineFn = d3.svg.line()
+        .x(function (d) {
+        e = _projection(d.locationLat, d.locationLong);
+        return e[0] + padding
+    })
+        .y(function (d) {
+        e = _projection(d.locationLat, d.locationLong);
+        return e[1] + padding
+    })
+
+    // Add points
+    overlay.draw = function () {
+
+        var boundingRect = layer.node().getBoundingClientRect()
+        svg.attr('width', boundingRect.width)
+            .attr('height', boundingRect.height)
+        projection = this.getProjection()
+
+        var points = svg.selectAll('.point-container').data(dataSet)
+        points.enter().append('g')
+            .each(function (d) {
+            var point = d3.select(this)
+            point.append("svg:image")
+            	.attr("xlink:href","http://upload.wikimedia.org/wikipedia/en/thumb/8/89/Angel_Oak_Tree_in_SC.jpg/1280px-Angel_Oak_Tree_in_SC.jpg")
+            	.attr("width","100px")
+//            point.append("svg:circle")
+//                .attr("r", 4.5)
+//                .attr("cx", padding)
+//                .attr("cy", padding)
+//                .attr("class", "point pts")
+//                .style("fill","url(/#tile-ww)")           
+            ;
+
+        })
+        points.attr('transform', transform)
+            .attr('class', 'point-container')
+
+
+//        var line = svg.selectAll('.path').data([dataSet])
+//        line.enter().append('path')
+//       line.attr('class', 'path')
+//            .attr('d', lineFn)
+//
+            function transform(d) {
+               e = _projection(d.locationLat, d.locationLong)
+               return "translate(" + e[0] + ", " + e[1] + ")"
+           }
+
+
+    };
+};
+
+// Bind overlay to the map…
+overlay.setMap(map);
+
+            
+        for(var i = 0; i < dataSet.length; i++) {
+                d3.select("#scenes").append("div").attr("class", "row").append("div").attr("class", "col-xs-12 col-sm-6").append("div").attr("class", "thumbnail")
+                        .attr("id", "pic" + i).append("img").attr("src", dataSet[i].image).attr("height", "100px").attr("width", "100%");
+                d3.select("#pic" + i).append("div").attr("class", "caption").attr("id", "sec" + i);
+
+                d3.select("#sec" + i).append("h3").text(dataSet[i].title);
+                d3.select("#sec" + i).append("p").text(dataSet[i].notes);
+                d3.select("#sec" + i).append("form").attr("method","GET").attr("id","form" + i).attr("action","photo.html").append("input").attr("type","hidden").attr("name","photoid").attr("value", i);
+                d3.select("#form" + i).append("a").attr("href", "photo.html").append("button").attr("type","submit").attr("class","btn btn-link").text("view more information...");
+        		
+        		console.log(dataSet);
+        
+            }
+        
+        
+	</script>
+
+
+  </body>
+</html>

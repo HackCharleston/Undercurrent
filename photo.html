@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Photo Page</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
+ 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+  	<div class=".container-fluid">
+		<div class="row">
+  			<div class="col-xs-12 col-sm-6">
+  				<a href="index.html">
+  				<div id="arrows">
+					<span class="glyphicon glyphicon-arrow-left"></span>
+				</div>
+				</a>
+				<div class="image-header">
+                    <script src="http://d3js.org/d3.v3.min.js"></script>
+                    <script src="Database.js"></script>
+                    <script type="text/javascript">
+                        var loc = window.location.search;
+                        var index = loc.substring(loc.indexOf("=") + 1);
+                        d3.select(".image-header")
+                                .append("img").attr("src", dataSet[index].image)
+                                .style("opacity",".5")
+                                ;
+                    </script>
+
+				</div>
+			</div>
+		</div>
+		<div class="row">
+  			<div class="col-xs-12 col-sm-6">
+			    <div class="thumbnail">
+  					<div class="caption" id="photodeep">
+  						<div id="notesheader">
+                        <script type="text/javascript">
+                            d3.select("#notesheader")
+                                    .append("h3")
+                                    .text(dataSet[index].title);
+                            d3.select("#notesheader")
+                                    .append("p")
+                                    .text("how to get there");
+                        </script>
+                        </div>
+						<div id="notes">
+							<div id="number">
+								<p>1</p>
+							</div>
+							<div id="notescontent">
+								<p>Possibly the controller/instrument with the biggest impact ever for Live users has been Ableton’s Push. To explore just how good this revolutionary instrument is for beat making and melody creation, we asked certified trainer, Noah Pred to pull out all the stops in this in depth review.</p>
+							</div>
+							<div id="clear"></div>
+						</div>
+						<div id="notes">
+							<div id="number">
+								<p>2</p>
+							</div>
+							<div id="notescontent">
+								<p>Possibly the controller/instrument with the biggest impact ever for Live users has been Ableton’s Push. To explore just how good this revolutionary instrument is for beat making and melody creation, we asked certified trainer, Noah Pred to pull out all the stops in this in depth review.</p>							</div>
+							<div id="clear"></div>
+						</div>
+						<div id="notes">
+							<div id="number">
+								<p>3</p>
+							</div>
+							<div id="notescontent">
+								<p>Lorem ipsum</p>
+							</div>
+							<div id="clear"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<!-- container close div -->
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+
+
+  </body>
+</html>

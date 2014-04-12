@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Tinder!</title>
+	<link href='http://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap -->
+  
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<div class=".container-fluid" style="padding-top:57px;">
+	<form method="GET" action="index.html">
+	<nav class="navbar navbar-default navbar-fixed-top text-center" role="navigation">
+		<a href="index.html" <span="" class="glyphicon glyphicon-chevron-left" style="
+	    font-size: 28px;
+    	color: #555;
+	    float: left;
+	    margin-left: 20px;
+    	margin-top: 19px;
+		"></a>
+		<div id="navtext2"><h3>Low Country Sights</h3></div>
+	</nav>
+	<div id="map-canvas"/>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom text-center" role="navigation">
+		<div id="submitbutton">
+			<input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" title="Submit">
+		</div>
+	</nav>
+	<div class="row" id="filtering">
+		  <div class="col-xs-12">
+			<div class="input-group" id="filterrow">
+				<span class="input-group-addon">
+					<input type="checkbox" name="bicycle" value="1">
+					<span> Bicycle </span>
+		      	</span>
+		      					<span class="input-group-addon">
+					<input type="checkbox" name="car" value="2">
+					<span> Car </span>
+		      	</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name="walk" value="3">
+					<span> Walk </span>
+		      	</span>
+
+		  	</div><!-- /input-group -->
+<button type="submit" class="btn btn-link">view more information...</button>
+		  </div>
+	</div>
+	</form>
+	
+	<nav class="navbar navbar-default navbar-fixed-bottom text-center" role="navigation">
+		<div id="submitbutton">
+			<input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" title="Submit">
+		</div>
+	</nav>
+	
+
+<!-- container close div -->
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="http://gregpike.net/demos/bootstrap-file-input/bootstrap.file-input.js.pagespeed.jm.IdmWcpRIii.js"></script>
+    <script>$(document).ready(function(){$('input[type=file]').bootstrapFileInput();});</script>
+	<script>
+
+			function Sight(image, location, difficulty, popularity, title, notes) {
+                this.image = image;
+                this.location = location;
+                this.difficulty = difficulty;
+                this.popularity = popularity;
+                this.title = title;
+                this.notes = notes;
+            }
+
+            function Location(lat, long) {
+                this.lat = lat;
+                this.long = long;
+            }
+
+
+		var dataSet = [new Sight("http://upload.wikimedia.org/wikipedia/en/thumb/8/89/Angel_Oak_Tree_in_SC.jpg/1280px-Angel_Oak_Tree_in_SC.jpg",
+                    Location(-44, 55.2), 3, 44, "The oldest tree, easy of the Mississippi", "This tree is located off of the first interstate on I-30"), new Sight("http://www.charlestoncitypaper.com/imager/bull-island/b/original/1884233/9b29/IMG_0769.JPG",
+                    Location(25, -33), 1, 22, "Bulls Island", "Pretty dead trees huh?"), new Sight("http://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Hunting_Island_2.jpg/300px-Hunting_Island_2.jpg",
+                    Location(33, 33), 2, 3, "The Marsh", "Watch out for the skeeters!")];
+
+        for(var i = 0; i < dataSet.length; i++) {
+                d3.select("#scenes").append("div").attr("class", "row").append("div").attr("class", "col-xs-12 col-sm-6").append("div").attr("class", "thumbnail")
+                        .attr("id", "pic" + i).append("img").attr("src", dataSet[i].image).attr("height", "100px").attr("width", "100%");
+                d3.select("#pic" + i).append("div").attr("class", "caption").attr("id", "sec" + i);
+
+                d3.select("#sec" + i).append("h3").text(dataSet[i].title);
+                d3.select("#sec" + i).append("p").text(dataSet[i].notes);
+                d3.select("#sec" + i).append("form").attr("method","GET").attr("id","form" + i).attr("action","photo.html").append("input").attr("type","hidden").attr("name","photoid").attr("value", i);
+                d3.select("#form" + i).append("a").attr("href", "photo.html").append("button").attr("type","submit").attr("class","btn btn-link").text("view more information...");
+            }
+		
+	</script>
+
+<script>
+$(document).ready(function(){
+  $("#splash").click(function(){
+    $("#splash").hide();
+  });
+});
+</script>
+	
+  </body>
+</html>
