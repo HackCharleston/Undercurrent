@@ -20,6 +20,8 @@
     <![endif]-->
   </head>
   <body>
+
+<!--
   	<div class=".container-fluid">
 		<div id="splash">
 			<div id="splashcontent">
@@ -34,6 +36,7 @@
 
 		</div>
 
+-->
 
 	<nav class="navbar navbar-default navbar-fixed-top text-center" role="navigation">
 		<a href="maps2.html" <span="" class="glyphicon glyphicon-map-marker" style="
@@ -130,7 +133,7 @@
             		if (dataSet[i].bike == 1) {return "http://www.mdaniels.com/hackcharleston/images/bike.png"}  // <== Add these
 			        ;})
 			          .attr("width",function() {            // <== Add these
-            		if (dataSet[i].bike == 1) {return "50px"}  // <== Add these
+            		if (dataSet[i].bike == 1) {return "25px"}  // <== Add these
 			        ;})
 					;					
 			d3.select("#icons" + i)
@@ -139,7 +142,7 @@
             		if (dataSet[i].drive == 1) {return "http://www.mdaniels.com/hackcharleston/images/car.png"}  // <== Add these
 			        ;}) 
 			        .attr("width",function() {            // <== Add these
-            		if (dataSet[i].drive == 1) {return "50px"}  // <== Add these
+            		if (dataSet[i].drive == 1) {return "25px"}  // <== Add these
 			        ;})
 					;
 			d3.select("#icons" + i)
@@ -148,7 +151,7 @@
             		if (dataSet[i].walk == 1) {return "http://www.mdaniels.com/hackcharleston/images/walk.png"}  // <== Add these
 			        ;})
 			           .attr("width",function() {            // <== Add these
-            		if (dataSet[i].walk == 1) {return "50px"}  // <== Add these
+            		if (dataSet[i].walk == 1) {return "25px"}  // <== Add these
 			        ;})
 					;
             d3.select("#sec" + i)
