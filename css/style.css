@@ -56,15 +56,20 @@ text-align: center;
 
 
 #navtext{
-width: 240px;
+width: 150px;
 display: inline-block;
-margin-right: 12px;
 }
 
 #navtext2{
-width: 240px;
+width: 150px;
 display: inline-block;
 margin-right: 62px;
+}
+
+.navbar h3{
+font-size:16px;
+font-family: abril fatface;
+margin-left: 20px;
 }
 
 #splashcontent p{
@@ -206,10 +211,7 @@ clear: both;
 margin-bottom: 30px;
 }
 
-.navbar h3{
-font-family: abril fatface;
-margin-left: 20px;
-}
+
 
 #icons img{
 width:100px;
